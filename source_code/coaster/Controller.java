@@ -14,6 +14,8 @@ public class Controller {
 
 	private final Object lock = new Object();
 	private final Object entryLock = new Object();
+	
+	private boolean goNow = false;
 
   public Controller(NumberCanvas nc) {
     passengers = nc;
@@ -43,8 +45,20 @@ public class Controller {
     // use "passengers.setValue(integer value)" to update diplay
     // return 0; // dummy value to allow compilation
 		while (passengerCount < mcar){
-			synchronized (lock) {
-  	    	lock.wait();
+			if(goNow){
+				int passCnt = passengerCount;
+				passengerCount = 0;
+				passengers.setValue(passengerCount);
+				synchronized (entryLock){
+					entryLock.notify();
+				}
+				goNow = !goNow;
+				return passCnt;
+			}			
+			else{
+				synchronized (lock) {
+	  	    	lock.wait();
+				}
 			}
 		}
 		passengerCount -= mcar;
@@ -57,6 +71,11 @@ public class Controller {
 
   public synchronized void goNow() {
     // complete implementation for part II
+		if(passengerCount > 0){
+			goNow = true;
+			synchronized (lock){
+				lock.notifyAll();
+			}
+		}
   }
-
 }
