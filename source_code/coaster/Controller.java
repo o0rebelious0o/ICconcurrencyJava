@@ -23,15 +23,17 @@ public class Controller {
   public void newPassenger() throws InterruptedException {
 		// complete implementation
 		// use "passengers.setValue(integer value)" to update diplay
-		if(passengerCount >= Max){
+		if(passengerCount < Max){
+			passengerCount++;
+			passengers.setValue(passengerCount);
+			synchronized (lock) {
+				lock.notify();
+			}
+		}
+		else{
 			synchronized (entryLock) {
 				entryLock.wait();
 			}
-		}
-		passengerCount += 1;
-		passengers.setValue(passengerCount);
-		synchronized (lock) {
-			lock.notify();
 		}
 	}
 
