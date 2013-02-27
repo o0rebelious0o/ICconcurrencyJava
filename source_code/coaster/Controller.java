@@ -1,9 +1,3 @@
-
-
-/**
- * Complete the implementation of this class in line with the FSP model
- */
-
 import display.*;
 
 public class Controller {
@@ -23,8 +17,6 @@ public class Controller {
   }
 
   public void newPassenger() throws InterruptedException {
-		// complete implementation
-		// use "passengers.setValue(integer value)" to update diplay
 		if(passengerCount < Max){
 			passengerCount++;
 			passengers.setValue(passengerCount);
@@ -40,10 +32,6 @@ public class Controller {
 	}
 
 	public int getPassengers(int mcar) throws InterruptedException {
-    // complete implementation for part I
-    // update for part II
-    // use "passengers.setValue(integer value)" to update diplay
-    // return 0; // dummy value to allow compilation
 		while (passengerCount < mcar){
 			if(goNow){
 				int passCnt = passengerCount;
@@ -70,7 +58,6 @@ public class Controller {
 	}
 
   public synchronized void goNow() {
-    // complete implementation for part II
 		if(passengerCount > 0){
 			goNow = true;
 			synchronized (lock){
